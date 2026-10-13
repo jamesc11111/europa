@@ -3,32 +3,12 @@
 (() => {
   const countySlug = new URLSearchParams(window.location.search).get("county");
   const profile = document.querySelector("[data-county-profile]");
-  const contributions = document.querySelector("[data-approved-contributions]");
+  const feature = document.querySelector("[data-county-feature]");
 
   function showMessage(container, message) {
     const paragraph = document.createElement("p");
     paragraph.textContent = message;
     container.replaceChildren(paragraph);
-  }
-
-  function contributionCard(item) {
-    const article = document.createElement("details");
-    article.className = "contribution-card";
-    const title = document.createElement("summary");
-    title.textContent = item.title || "Community contribution";
-    const text = document.createElement("p");
-    text.textContent = item.contribution;
-    article.append(title, text);
-    if (item.sourceUrl) {
-      const source = document.createElement("a");
-      source.className = "text-link";
-      source.href = item.sourceUrl;
-      source.target = "_blank";
-      source.rel = "noopener noreferrer";
-      source.textContent = "View source";
-      article.append(source);
-    }
-    return article;
   }
 
   async function initialiseProfile() {
@@ -37,15 +17,9 @@
       return;
     }
     try {
-      const [countyResponse, contributionResponse] = await Promise.all([
-        fetch("../data/counties.json"),
-        fetch("../data/approved-contributions.json"),
-      ]);
-      if (!countyResponse.ok || !contributionResponse.ok) throw new Error("Profile data unavailable");
-      const [{ counties }, { contributions: allContributions }] = await Promise.all([
-        countyResponse.json(),
-        contributionResponse.json(),
-      ]);
+      const countyResponse = await fetch("../data/counties.json");
+      if (!countyResponse.ok) throw new Error("Profile data unavailable");
+      const { counties } = await countyResponse.json();
       const county = counties.find((item) => item.slug === countySlug);
       if (!county) throw new Error("Unknown county");
       document.title = `${county.name} and ${county.officialUmbrellaPairing.partnerCountry} | Europa Society at UCC`;
@@ -57,22 +31,17 @@
       heading.textContent = `${county.name} × ${county.officialUmbrellaPairing.partnerCountry}`;
       const text = document.createElement("p");
       text.className = "hero-intro";
-      text.textContent = `${county.name} is paired with ${county.officialUmbrellaPairing.partnerCountry}. Explore community contributions or share a discovery.`;
+      text.textContent = `${county.name} is paired with ${county.officialUmbrellaPairing.partnerCountry}. Explore the county and its European pairing.`;
       profile.append(label, heading, text);
-      const published = allContributions.filter(
-        (item) => item.county === county.slug && item.published === true,
-      );
-      if (!published.length) {
-        showMessage(
-          contributions,
-          "Community contributions will appear here as clickable cards once the contribution sheet begins to populate.",
-        );
-        return;
+      if (county.slug === "carlow" && feature) {
+        const artwork = feature.querySelector("[data-county-artwork]");
+        artwork.src = "../assets/carlow-county.jpg";
+        artwork.alt = "Carlow county artwork with Brownshill Dolmen, an old map and county flag; the facts are repeated in text below.";
+        feature.hidden = false;
       }
-      contributions.replaceChildren(...published.map(contributionCard));
     } catch (error) {
       showMessage(profile, "This county profile could not be loaded. Please return to the atlas and try again.");
-      showMessage(contributions, "Contributions are unavailable right now.");
+
       console.error("County profile failed to load:", error);
     }
   }
