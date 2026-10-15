@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: europa-society-at-ucc
+    runtime: static
+    buildCommand: npm run check:content && node scripts/build-static.mjs
+    staticPublishPath: dist
+    autoDeployTrigger: commit
