@@ -36,7 +36,7 @@
       if (county.slug === "carlow" && feature) {
         const artwork = feature.querySelector("[data-county-artwork]");
         artwork.src = "../assets/carlow-county.jpg";
-        artwork.alt = "Carlow county artwork with Brownshill Dolmen, an old map and county flag; the facts are repeated in text below.";
+        artwork.alt = "Carlow county artwork featuring Brownshill Dolmen, a historic map and the county flag.";
         feature.hidden = false;
       }
     } catch (error) {
