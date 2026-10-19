@@ -151,7 +151,7 @@ try {
 
         if (route.name === "carlow") {
           await page.getByRole("heading", { name: "Carlow × Luxembourg" }).waitFor();
-          await page.getByRole("heading", { name: "Luxembourg" }).waitFor();
+          await page.getByRole("heading", { name: "Luxembourg", exact: true }).waitFor();
           await page.getByRole("img", { name: "Facade of the Grand Ducal Palace in Luxembourg City." }).waitFor();
         }
 
