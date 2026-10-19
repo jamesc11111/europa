@@ -60,7 +60,7 @@ const screens = [
 
 const routes = [
   { name: "home", path: "/" },
-  { name: "clare", path: "/county/?county=clare" },
+  { name: "carlow", path: "/county/?county=carlow" },
   { name: "cork-france", path: "/pairings/cork-france/" },
   { name: "contribute", path: "/contribute/" },
 ];
@@ -123,9 +123,9 @@ try {
         const navigationLabels = await page
           .locator(".site-nav a")
           .allTextContents();
-        if (!navigationLabels.includes("About") || navigationLabels.some((label) => /cork.*france/i.test(label))) {
+        if (!navigationLabels.includes("Atlas") || !navigationLabels.includes("Contribute") || navigationLabels.some((label) => /cork.*france/i.test(label))) {
           failures.push(
-            `${route.name}/${screen.name}: primary navigation must show About and not Cork–France.`,
+            `${route.name}/${screen.name}: primary navigation must show Atlas and Contribute, and not Cork–France.`,
           );
         }
 
@@ -149,13 +149,10 @@ try {
           await page.waitForURL(/county\/\?county=cork/);
         }
 
-        if (route.name === "clare") {
-          await page.getByRole("heading", { name: "Clare × Croatia" }).waitFor();
-          await page
-            .getByText(
-              "Community contributions will appear here as clickable cards once the contribution sheet begins to populate.",
-            )
-            .waitFor();
+        if (route.name === "carlow") {
+          await page.getByRole("heading", { name: "Carlow × Luxembourg" }).waitFor();
+          await page.getByRole("heading", { name: "Luxembourg", exact: true }).waitFor();
+          await page.getByRole("img", { name: "Facade of the Grand Ducal Palace in Luxembourg City." }).waitFor();
         }
 
         if (route.name === "cork-france") {

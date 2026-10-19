@@ -1968,7 +1968,6 @@ section[id],
 }
 
 /* Community voices and county artwork */
-.hero-phrase { display: inline-block; }
 .voices-section { padding-block: clamp(3rem, 7vw, 6rem); }
 .word-cloud { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .65rem 1.3rem; min-height: 8rem; padding: 2rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); }
 .word-cloud button { border: 0; background: transparent; color: var(--eu-blue); font: 700 var(--word-size, 1.2rem)/1.2 var(--serif); cursor: pointer; }
@@ -1988,3 +1987,56 @@ section[id],
 .county-facts dd { margin: .25rem 0 0; }
 .contribution-form-embed { display: block; width: 100%; height: 900px; margin-top: 1.5rem; border: 0; }
 @media (max-width: 650px) { .hero-phrase { display: inline; } .contribution-form-embed { height: 1050px; } }
+
+
+/* Claire's homepage layout updates */
+.hero-phrase {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.16em;
+}
+.hero-phrase .pairing-word {
+  grid-column: 1 / -1;
+  display: block;
+}
+.county-directory {
+  display: flex;
+  min-height: 680px;
+  flex-direction: column;
+}
+.county-directory .county-list {
+  flex: 1;
+  max-height: none;
+}
+.voices-section .section-heading {
+  max-width: none;
+}
+.voices-section .section-heading > p:not(.eyebrow) {
+  max-width: 62ch;
+}
+@media (max-width: 650px) {
+  .hero-phrase {
+    display: inline-grid;
+  }
+  .county-directory .county-list {
+    flex: none;
+    max-height: 430px;
+  }
+}
+
+
+/* Carlow and Luxembourg pairing profile */
+.partner-country-feature { margin-top: 2.5rem; padding: clamp(1.35rem, 4vw, 2.75rem); border: 1px solid rgba(22, 66, 57, .18); border-radius: 1.4rem; background: #fcfaf3; }
+.partner-country-feature h2 { margin: 0; font-family: Georgia, serif; font-size: clamp(2.2rem, 6vw, 4.5rem); letter-spacing: -.06em; }
+.partner-country-subtitle { margin: .2rem 0 1.6rem; color: #785429; font-size: 1.15rem; font-style: italic; }
+.partner-country-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 3vw, 2rem); }
+.partner-landmark { margin: 0; background: #fff; padding: .7rem; box-shadow: 0 8px 18px rgba(34, 27, 18, .13); transform: rotate(-1deg); }
+.partner-landmark img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.partner-landmark figcaption { padding: .65rem .25rem .1rem; color: #785429; font-family: Georgia, serif; font-size: 1.1rem; font-style: italic; text-align: center; }
+.luxembourg-map { position: relative; min-height: 340px; overflow: hidden; border: 1px solid #d6cbb4; border-radius: .4rem; background: linear-gradient(142deg, #f7b153 0 39%, #fff8ea 40% 49%, #f7b153 50% 100%); }
+.map-label { position: absolute; top: 1rem; left: 1rem; z-index: 2; color: rgba(86, 59, 21, .73); font-family: Georgia, serif; font-size: 1.25rem; }
+.map-continent { position: absolute; inset: 13% 11% 12% 8%; border: 3px solid rgba(255,255,255,.8); border-radius: 47% 53% 41% 58% / 52% 37% 63% 48%; background: rgba(248, 173, 74, .86); clip-path: polygon(4% 32%, 26% 10%, 55% 16%, 90% 4%, 100% 29%, 74% 43%, 93% 68%, 66% 94%, 35% 78%, 9% 91%, 16% 57%); }
+.luxembourg-pin { position: absolute; z-index: 3; top: 52%; left: 42%; width: 42px; height: 54px; border: 3px solid #1a1a1a; border-radius: 50% 50% 50% 0; background: linear-gradient(#ef3340 0 33%, #fff 33% 66%, #00a3e0 66%); box-shadow: 0 3px 0 rgba(0,0,0,.18); transform: rotate(-45deg); }
+.luxembourg-pin span { position: absolute; top: 14px; left: 13px; width: 11px; height: 11px; border-radius: 50%; background: #fff; }
+.luxembourg-map p { position: absolute; z-index: 4; top: calc(52% + 36px); left: calc(42% + 28px); margin: 0; color: #4d371b; font-weight: 700; }
+@media (max-width: 650px) { .partner-country-grid { grid-template-columns: 1fr; } .luxembourg-map { min-height: 280px; } }
