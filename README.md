@@ -184,7 +184,6 @@ without an explicit licence remains excluded from the MIT Licence.
 
 [official-source]: https://www.gov.ie/en/department-of-foreign-affairs/press-releases/eu-presidency-county-pairings-announced-by-ministers-mcentee-and-byrne/
 
-
 ## Community voices
 
 The atlas invites anonymous reflections on how the EU has affected people's lives. Reviewed words form a word cloud below the county map, with optional stories displayed as anonymous cards in the same section. Contributions are independent of county pairings and appear only after editorial approval.
