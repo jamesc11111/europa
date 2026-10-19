@@ -123,9 +123,9 @@ try {
         const navigationLabels = await page
           .locator(".site-nav a")
           .allTextContents();
-        if (!navigationLabels.includes("About") || navigationLabels.some((label) => /cork.*france/i.test(label))) {
+        if (!navigationLabels.includes("Atlas") || !navigationLabels.includes("Contribute") || navigationLabels.some((label) => /cork.*france/i.test(label))) {
           failures.push(
-            `${route.name}/${screen.name}: primary navigation must show About and not Cork–France.`,
+            `${route.name}/${screen.name}: primary navigation must show Atlas and Contribute, and not Cork–France.`,
           );
         }
 
@@ -153,7 +153,7 @@ try {
           await page.getByRole("heading", { name: "Clare × Croatia" }).waitFor();
           await page
             .getByText(
-              "Community contributions will appear here as clickable cards once the contribution sheet begins to populate.",
+              "Note: Submissions are anonymous and each response is reviewed before publication.",
             )
             .waitFor();
         }
