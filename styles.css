@@ -1988,3 +1988,39 @@ section[id],
 .county-facts dd { margin: .25rem 0 0; }
 .contribution-form-embed { display: block; width: 100%; height: 900px; margin-top: 1.5rem; border: 0; }
 @media (max-width: 650px) { .hero-phrase { display: inline; } .contribution-form-embed { height: 1050px; } }
+
+
+/* Claire's homepage layout updates */
+.hero-phrase {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.16em;
+}
+.hero-phrase .pairing-word {
+  grid-column: 1 / -1;
+  display: block;
+}
+.county-directory {
+  display: flex;
+  min-height: 680px;
+  flex-direction: column;
+}
+.county-directory .county-list {
+  flex: 1;
+  max-height: none;
+}
+.voices-section .section-heading {
+  max-width: none;
+}
+.voices-section .section-heading > p:not(.eyebrow) {
+  max-width: 62ch;
+}
+@media (max-width: 650px) {
+  .hero-phrase {
+    display: inline-grid;
+  }
+  .county-directory .county-list {
+    flex: none;
+    max-height: 430px;
+  }
+}
