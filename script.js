@@ -4,6 +4,7 @@
   const root = document.body.dataset.root || "";
   const toast = document.querySelector("[data-toast]");
   let toastTimer;
+  const approvedVoicesEndpoint = "https://script.google.com/macros/s/AKfycbyXBH1efK9I-atM0_YIgvJEOYoGAqsphl1kgJWXIndhnxZ7IWnIVI2np7XPZ8X63hKS/exec";
   const gaaCountyColours = Object.freeze({
     carlow: ["#177245", "#e4b62e"],
     cavan: ["#1f5fae", "#ffffff"],
@@ -207,11 +208,11 @@
     const more = document.querySelector("[data-more-voices]");
     if (!cloud || !cards || !more) return;
     try {
-      const response = await fetch(`${root}data/approved-contributions.json`);
+      const response = await fetch(approvedVoicesEndpoint, { cache: "no-store" });
       if (!response.ok) throw new Error("Approved voices unavailable");
       const data = await response.json();
-      const voices = (data.contributions || []).filter(
-        (item) => item.published === true && typeof item.word === "string" &&
+      const voices = (data.entries || []).filter(
+        (item) => typeof item.word === "string" &&
           typeof item.story === "string" && item.word.trim() && item.story.trim(),
       );
       if (!voices.length) {
