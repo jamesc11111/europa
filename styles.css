@@ -1968,7 +1968,6 @@ section[id],
 }
 
 /* Community voices and county artwork */
-.hero-phrase { display: inline-block; }
 .voices-section { padding-block: clamp(3rem, 7vw, 6rem); }
 .word-cloud { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .65rem 1.3rem; min-height: 8rem; padding: 2rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-md); }
 .word-cloud button { border: 0; background: transparent; color: var(--eu-blue); font: 700 var(--word-size, 1.2rem)/1.2 var(--serif); cursor: pointer; }
