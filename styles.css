@@ -2098,3 +2098,11 @@ section[id],
   .county-profile *, .county-hero * { max-width: 100%; }
   .county-profile h1, .county-hero h1 { overflow-wrap: anywhere; }
 }
+
+
+/* Restore county directory and keep profile breadcrumb compact on phones */
+.county-directory { display: flex !important; }
+@media (max-width: 700px) {
+  .breadcrumbs { display: flex; flex-wrap: nowrap; align-items: centre; gap: 0.35rem; white-space: nowrap; font-size: 0.9rem; }
+  .breadcrumbs a, .breadcrumbs span { flex: 0 0 auto; }
+}
