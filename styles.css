@@ -1814,8 +1814,8 @@ section[id],
     font-size: 0.82rem;
   }
 
-  .site-nav a:first-child {
-    display: none;
+  .site-nav {
+    gap: 0.1rem;
   }
 
   h1 {
@@ -1995,8 +1995,14 @@ section[id],
   grid-template-columns: auto auto;
   column-gap: 0.16em;
 }
+.hero-phrase .pairing-article {
+  grid-column: 1;
+}
+.hero-phrase .eu-highlight,
 .hero-phrase .pairing-word {
-  grid-column: 1 / -1;
+  grid-column: 2;
+}
+.hero-phrase .pairing-word {
   display: block;
 }
 .county-directory {
@@ -2018,9 +2024,12 @@ section[id],
   .hero-phrase {
     display: inline-grid;
   }
+  .county-directory {
+    min-height: 680px;
+  }
   .county-directory .county-list {
-    flex: none;
-    max-height: 430px;
+    flex: 1;
+    max-height: none;
   }
 }
 
