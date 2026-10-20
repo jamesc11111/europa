@@ -392,3 +392,36 @@
   document.body.append(countyList);
   countyField.setAttribute("list", countyList.id);
 })();
+
+
+
+
+(() => {
+  const input = document.querySelector("#county-search");
+  const suggestions = document.querySelector("#county-suggestions");
+  if (!input || !suggestions) return;
+
+  const counties = ["Carlow", "Cavan", "Clare", "Cork", "Donegal", "Dublin", "Galway", "Kerry", "Kildare", "Kilkenny", "Laois", "Leitrim", "Limerick", "Longford", "Louth", "Mayo", "Meath", "Monaghan", "Offaly", "Roscommon", "Sligo", "Tipperary", "Waterford", "Westmeath", "Wexford", "Wicklow"];
+  input.removeAttribute("list");
+
+  const renderChoices = () => {
+    const query = input.value.trim().toLowerCase();
+    const matches = query ? counties.filter((county) => county.toLowerCase().startsWith(query)) : [];
+    suggestions.replaceChildren(...matches.map((county) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "county-suggestion";
+      button.textContent = county;
+      button.addEventListener("mousedown", (event) => {
+        event.preventDefault();
+        window.location.href = "county/?county=" + county.toLowerCase();
+      });
+      return button;
+    }));
+    suggestions.hidden = matches.length === 0;
+    input.setAttribute("aria-expanded", String(matches.length > 0));
+  };
+
+  input.addEventListener("input", renderChoices);
+  input.addEventListener("focus", renderChoices);
+})();
