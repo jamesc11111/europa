@@ -278,3 +278,101 @@
   initialiseCountyAtlas();
   initialiseQuiz();
 })();
+
+
+(() => {
+  function addCountyAutocomplete() {
+    const input = document.querySelector("#county-search");
+    const directory = document.querySelector("[data-county-list]");
+    if (!input || !directory) {
+      window.setTimeout(addCountyAutocomplete, 120);
+      return;
+    }
+    if (input.dataset.autocompleteReady) return;
+    input.dataset.autocompleteReady = "true";
+
+    const toolbar = input.parentElement;
+    toolbar.classList.add("has-county-suggestions");
+    const suggestions = document.createElement("div");
+    suggestions.className = "county-suggestions";
+    suggestions.setAttribute("role", "listbox");
+    suggestions.setAttribute("aria-label", "Matching counties");
+    suggestions.hidden = true;
+    input.setAttribute("aria-controls", "county-suggestions");
+    input.setAttribute("aria-expanded", "false");
+    suggestions.id = "county-suggestions";
+    input.insertAdjacentElement("afterend", suggestions);
+
+    const style = document.createElement("style");
+    style.textContent = ".map-toolbar.has-county-suggestions{position:relative}.county-suggestions{position:absolute;z-index:20;top:calc(100% + .4rem);left:0;right:0;overflow:hidden;border:1px solid var(--line);border-radius:.75rem;background:var(--paper);box-shadow:var(--shadow-sm)}.county-suggestion{display:block;width:100%;padding:.8rem 1rem;border-bottom:1px solid var(--line);color:var(--ink);font-weight:700;text-decoration:none}.county-suggestion:last-child{border-bottom:0}.county-suggestion:hover,.county-suggestion:focus{background:var(--green-pale);outline:none}";
+    document.head.append(style);
+
+    const counties = [...directory.querySelectorAll(".county-button")].map((link) => ({
+      name: link.textContent.trim(),
+      url: link.href,
+    }));
+
+    function closeSuggestions() {
+      suggestions.hidden = true;
+      suggestions.replaceChildren();
+      input.setAttribute("aria-expanded", "false");
+    }
+
+    function showMatches() {
+      const query = input.value.trim().toLocaleLowerCase("en-IE");
+      if (!query) {
+        closeSuggestions();
+        return;
+      }
+      const matches = counties.filter((county) => county.name.toLocaleLowerCase("en-IE").includes(query)).slice(0, 8);
+      if (!matches.length) {
+        closeSuggestions();
+        return;
+      }
+      suggestions.replaceChildren(...matches.map((county) => {
+        const option = document.createElement("a");
+        option.className = "county-suggestion";
+        option.href = county.url;
+        option.setAttribute("role", "option");
+        option.textContent = county.name;
+        return option;
+      }));
+      suggestions.hidden = false;
+      input.setAttribute("aria-expanded", "true");
+    }
+
+    input.addEventListener("input", showMatches);
+    input.addEventListener("focus", showMatches);
+    input.addEventListener("keydown", (event) => {
+      const options = [...suggestions.querySelectorAll(".county-suggestion")];
+      if (event.key === "ArrowDown" && options.length) {
+        event.preventDefault();
+        options[0].focus();
+      }
+      if (event.key === "Escape") closeSuggestions();
+    });
+    suggestions.addEventListener("keydown", (event) => {
+      const options = [...suggestions.querySelectorAll(".county-suggestion")];
+      const index = options.indexOf(document.activeElement);
+      if (event.key === "ArrowDown" && index < options.length - 1) {
+        event.preventDefault();
+        options[index + 1].focus();
+      }
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        if (index > 0) options[index - 1].focus();
+        else input.focus();
+      }
+      if (event.key === "Escape") {
+        closeSuggestions();
+        input.focus();
+      }
+    });
+    input.addEventListener("blur", () => window.setTimeout(closeSuggestions, 160));
+    document.addEventListener("click", (event) => {
+      if (!toolbar.contains(event.target)) closeSuggestions();
+    });
+  }
+
+  addCountyAutocomplete();
+})();
