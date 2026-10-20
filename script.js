@@ -376,3 +376,19 @@
 
   addCountyAutocomplete();
 })();
+
+
+(() => {
+  const countyField = document.querySelector("#county-search");
+  if (!countyField || document.querySelector("#county-options")) return;
+  const countyOptions = ["Carlow", "Cavan", "Clare", "Cork", "Donegal", "Dublin", "Galway", "Kerry", "Kildare", "Kilkenny", "Laois", "Leitrim", "Limerick", "Longford", "Louth", "Mayo", "Meath", "Monaghan", "Offaly", "Roscommon", "Sligo", "Tipperary", "Waterford", "Westmeath", "Wexford", "Wicklow"];
+  const countyList = document.createElement("datalist");
+  countyList.id = "county-options";
+  countyList.replaceChildren(...countyOptions.map((name) => {
+    const option = document.createElement("option");
+    option.value = name;
+    return option;
+  }));
+  document.body.append(countyList);
+  countyField.setAttribute("list", countyList.id);
+})();
