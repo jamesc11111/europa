@@ -74,7 +74,6 @@
       }
       section.append(card);
     });
-    const note = document.createElement("p"); note.textContent = "Facts supplied by Europa Society. Population figures may refer to different years."; note.style.cssText = "grid-column:1 / -1;font-size:.9rem"; section.append(note);
     profile.insertAdjacentElement("afterend", section);
   }
 
