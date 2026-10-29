@@ -2134,3 +2134,6 @@ section[id],
   font-size: clamp(3rem, 14vw, 7.5rem);
   line-height: 0.95;
 }
+
+/* Hide the pagination control when no more responses are available. */
+[data-more-voices][hidden] { display: none !important; }
