@@ -83,7 +83,7 @@
       const number = artworkByCounty[county.slug]?.[index];
       const container = document.createElement("div");
       container.style.cssText = "min-width:0";
-      if (number && number !== 25) {
+      if (number) {
         const img = document.createElement("img");
         img.src = "../assets/pairing-artwork/" + number + ".png";
         img.alt = "Illustrated map and landmark for " + entry.name + ".";
