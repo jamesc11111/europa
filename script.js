@@ -203,10 +203,10 @@
 
 
   async function initialiseVoices() {
-    const cloud = document.querySelector("[data-word-cloud]");
     const cards = document.querySelector("[data-voice-cards]");
     const more = document.querySelector("[data-more-voices]");
-    if (!cloud || !cards || !more) return;
+    if (!cards || !more) return;
+    more.hidden = true;
     try {
       const response = await fetch(approvedVoicesEndpoint, { cache: "no-store" });
       if (!response.ok) throw new Error("Approved voices unavailable");
@@ -219,22 +219,12 @@
         const empty = document.createElement("p");
         empty.className = "voices-empty";
         empty.textContent = "The first community words and stories will appear here after review.";
-        cloud.replaceChildren(empty);
+        cards.replaceChildren(empty);
         return;
       }
-      const counts = new Map();
-      for (const item of voices) {
-        const word = item.word.trim().toLocaleLowerCase("en-IE");
-        counts.set(word, (counts.get(word) || 0) + 1);
-      }
-      const ordered = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-      let selected = null;
       let limit = 3;
       function render() {
-        const shown = selected
-          ? voices.filter((item) => item.word.trim().toLocaleLowerCase("en-IE") === selected)
-          : voices;
-        cards.replaceChildren(...shown.slice(0, limit).map((item) => {
+        cards.replaceChildren(...voices.slice(0, limit).map((item) => {
           const article = document.createElement("article");
           article.className = "voice-card";
           const heading = document.createElement("h3");
@@ -244,31 +234,14 @@
           article.append(heading, story);
           return article;
         }));
-        more.hidden = shown.length <= limit;
+        more.hidden = voices.length <= limit;
       }
-      cloud.replaceChildren(...ordered.map(([word, count]) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = word;
-        button.style.setProperty("--word-size", `${Math.min(2.5, 1.1 + Math.log2(count + 1) * .35)}rem`);
-        button.setAttribute("aria-label", `${word}, ${count} ${count === 1 ? "response" : "responses"}`);
-        button.setAttribute("aria-pressed", "false");
-        button.addEventListener("click", () => {
-          selected = selected === word ? null : word;
-          limit = 3;
-          for (const child of cloud.querySelectorAll("button")) {
-            child.setAttribute("aria-pressed", String(child === button && selected !== null));
-          }
-          render();
-        });
-        return button;
-      }));
       more.addEventListener("click", () => { limit += 3; render(); });
       render();
     } catch (error) {
       const message = document.createElement("p");
       message.textContent = "Community responses could not load right now.";
-      cloud.replaceChildren(message);
+      cards.replaceChildren(message);
       console.error("Approved voices failed to load:", error);
     }
   }

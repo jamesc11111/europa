@@ -1973,7 +1973,7 @@ section[id],
 .word-cloud button { border: 0; background: transparent; color: var(--eu-blue); font: 700 var(--word-size, 1.2rem)/1.2 var(--serif); cursor: pointer; }
 .word-cloud button:hover, .word-cloud button:focus-visible, .word-cloud button[aria-pressed="true"] { text-decoration: underline; }
 .voice-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; margin-block: 1.5rem; }
-.voice-card { padding: 1.3rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); }
+.voice-card { min-width: 0; overflow-wrap: anywhere; padding: 1.3rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-sm); }
 .voice-card h3 { margin: 0 0 .5rem; color: var(--eu-blue); }
 .voice-card p { margin: 0; }
 .voices-empty { margin: 0; text-align: center; }
