@@ -54,17 +54,6 @@
     pair.forEach((entry, index) => {
       const card = document.createElement("article");
       card.style.cssText = "background:#fffdf8;border:1px solid #d5ddd6;border-radius:1.25rem;padding:clamp(1.25rem,3vw,2rem);min-width:0;overflow-wrap:anywhere";
-      const artworkNumber = artworkByCounty[county.slug]?.[index];
-      if ([1,2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27].includes(artworkNumber)) {
-        const artwork = document.createElement("img");
-        artwork.src = "../assets/pairing-artwork/" + artworkNumber + ".png";
-        artwork.alt = "Illustrated map and landmark for " + entry.name + ".";
-        artwork.loading = "lazy";
-        artwork.width = 1080;
-        artwork.height = 1350;
-        artwork.style.cssText = "display:block;width:100%;height:auto;border-radius:.75rem;margin-bottom:1.25rem";
-        card.append(artwork);
-      }
       const heading = document.createElement("h2");
       heading.textContent = entry.name + " facts";
       card.append(heading);
@@ -87,6 +76,30 @@
       section.append(card);
     });
     profile.insertAdjacentElement("afterend", section);
+    const designs = document.createElement("section");
+    designs.setAttribute("aria-label", "County and country designs");
+    designs.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem;margin:2rem 0";
+    pair.forEach((entry, index) => {
+      const number = artworkByCounty[county.slug]?.[index];
+      const container = document.createElement("div");
+      container.style.cssText = "min-width:0";
+      if (number && number !== 25) {
+        const img = document.createElement("img");
+        img.src = "../assets/pairing-artwork/" + number + ".png";
+        img.alt = "Illustrated map and landmark for " + entry.name + ".";
+        img.loading = "lazy";
+        img.width = 1080;
+        img.height = 1350;
+        img.style.cssText = "display:block;width:100%;height:auto;border-radius:.75rem";
+        container.append(img);
+      } else {
+        const note = document.createElement("p");
+        note.textContent = entry.name + " design coming soon.";
+        container.append(note);
+      }
+      designs.append(container);
+    });
+    profile.insertAdjacentElement("afterend", designs);
   }
 
   async function initialiseProfile() {
