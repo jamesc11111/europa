@@ -49,14 +49,27 @@
     const pair = factsheets[county.slug];
     if (!pair) return;
     const section = document.createElement("section");
-    section.setAttribute("aria-label", "County and country factsheets");
-    section.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem;margin:2rem 0 3rem";
+    section.setAttribute("aria-label", "County and country designs and facts");
+    section.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem;margin:2rem 0 3rem;align-items:start";
     pair.forEach((entry, index) => {
       const card = document.createElement("article");
-      card.style.cssText = "background:#fffdf8;border:1px solid #d5ddd6;border-radius:1.25rem;padding:clamp(1.25rem,3vw,2rem);min-width:0;overflow-wrap:anywhere";
+      card.style.cssText = "background:#fffdf8;border:1px solid #d5ddd6;border-radius:1.25rem;overflow:hidden;min-width:0;overflow-wrap:anywhere";
+      const number = artworkByCounty[county.slug]?.[index];
+      if (number) {
+        const img = document.createElement("img");
+        img.src = "../assets/pairing-artwork/" + number + ".png";
+        img.alt = "Illustrated map and landmark for " + entry.name + ".";
+        img.loading = "lazy";
+        img.width = 1080;
+        img.height = 1350;
+        img.style.cssText = "display:block;width:100%;height:auto";
+        card.append(img);
+      }
+      const details = document.createElement("div");
+      details.style.cssText = "padding:clamp(1.25rem,3vw,2rem)";
       const heading = document.createElement("h2");
       heading.textContent = entry.name + " facts";
-      card.append(heading);
+      details.append(heading);
       const list = document.createElement("dl");
       const fields = index === 0 ? ["Province", "Capital", "Population", "Area"] : ["Capital", "Population", "Area", "Language", "EU Member Since"];
       fields.forEach(key => {
@@ -69,37 +82,14 @@
         const description = document.createElement("dd"); description.style.margin = "0"; description.textContent = value;
         row.append(term, description); list.append(row);
       });
-      card.append(list);
+      details.append(list);
       if (entry.url && /^https?:\/\//.test(entry.url)) {
-        const link = document.createElement("a"); link.href = entry.url; link.textContent = "Visit " + entry.name + " website"; link.className = "text-link"; card.append(link);
+        const link = document.createElement("a"); link.href = entry.url; link.textContent = "Visit " + entry.name + " website"; link.className = "text-link"; details.append(link);
       }
+      card.append(details);
       section.append(card);
     });
     profile.insertAdjacentElement("afterend", section);
-    const designs = document.createElement("section");
-    designs.setAttribute("aria-label", "County and country designs");
-    designs.style.cssText = "display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem;margin:2rem 0";
-    pair.forEach((entry, index) => {
-      const number = artworkByCounty[county.slug]?.[index];
-      const container = document.createElement("div");
-      container.style.cssText = "min-width:0";
-      if (number) {
-        const img = document.createElement("img");
-        img.src = "../assets/pairing-artwork/" + number + ".png";
-        img.alt = "Illustrated map and landmark for " + entry.name + ".";
-        img.loading = "lazy";
-        img.width = 1080;
-        img.height = 1350;
-        img.style.cssText = "display:block;width:100%;height:auto;border-radius:.75rem";
-        container.append(img);
-      } else {
-        const note = document.createElement("p");
-        note.textContent = entry.name + " design coming soon.";
-        container.append(note);
-      }
-      designs.append(container);
-    });
-    profile.insertAdjacentElement("afterend", designs);
   }
 
   async function initialiseProfile() {
