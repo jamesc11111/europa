@@ -229,7 +229,7 @@
       }
       const ordered = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
       let selected = null;
-      let limit = 6;
+      let limit = 3;
       function render() {
         const shown = selected
           ? voices.filter((item) => item.word.trim().toLocaleLowerCase("en-IE") === selected)
@@ -255,7 +255,7 @@
         button.setAttribute("aria-pressed", "false");
         button.addEventListener("click", () => {
           selected = selected === word ? null : word;
-          limit = 6;
+          limit = 3;
           for (const child of cloud.querySelectorAll("button")) {
             child.setAttribute("aria-pressed", String(child === button && selected !== null));
           }
@@ -263,7 +263,7 @@
         });
         return button;
       }));
-      more.addEventListener("click", () => { limit += 6; render(); });
+      more.addEventListener("click", () => { limit += 3; render(); });
       render();
     } catch (error) {
       const message = document.createElement("p");
