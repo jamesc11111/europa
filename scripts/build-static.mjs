@@ -42,6 +42,9 @@ for (const page of [
       .replace(/^\s*<meta property="og:url"[^>]*>\s*$/gm, '')
       .replace(/\s*<meta\s+property="og:image(?::[^"]+)?"[\s\S]*?\/>/g, '');
   }
+  const analytics = `<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"0105995d951b41a8b6357d1d3c814c63"}'></script><!-- End Cloudflare Web Analytics -->`;
+  if (!html.includes('</body>')) throw new Error(`Missing closing body tag in ${page}`);
+  html = html.replace('</body>', `  ${analytics}\n</body>`);
   writeFileSync(path, html);
 }
 
